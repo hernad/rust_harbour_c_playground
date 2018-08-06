@@ -1,0 +1,11 @@
+-hblib
+-inc
+
+-o${hb_name}
+
+
+-hbx=${hb_name}
+
+-depincpath=fibonacci:./
+-depkeyhead=fibonacci:fibonacci.h
+core.c
