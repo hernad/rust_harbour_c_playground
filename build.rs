@@ -1,21 +1,23 @@
-// build.rs
-
-use std::process::Command;
-use std::env;
-use std::path::Path;
+extern crate cc;
 
 fn main() {
-    let out_dir = env::var("OUT_DIR").unwrap();
 
-    // note that there are a number of downsides to this approach, the comments
-    // below detail how to improve the portability of these commands.
-    Command::new("gcc").args(&["src/c_lib.c", "-c", "-fPIC", "-o"])
-                       .arg(&format!("{}/c_lib.o", out_dir))
-                       .status().unwrap();
-    Command::new("ar").args(&["crus", "libchello.a", "c_lib.o"])
-                      .current_dir(&Path::new(&out_dir))
-                      .status().unwrap();
+// https://kornel.ski/rust-sys-crate
+// https://fossies.org/linux/pngquant/rust/build.rs
 
-    println!("cargo:rustc-link-search=native={}", out_dir);
-    println!("cargo:rustc-link-lib=static=chello");
+let mut cc = cc::Build::new();
+cc.warnings(true);
+
+if cfg!(feature = "foo") {
+    cc.define("FOO_SUPPORTED", Some("1"));
+}
+if cfg!(feature = "bar") {
+    cc.define("BAR_SUPPORTED", Some("1"));
+}
+
+cc.file("src/c_lib.c");
+cc.define("CFLAGS", Some("-m32"));
+cc.include("d:/devel/harbour/include");
+cc.compile("libchello.a");
+
 }
