@@ -74,9 +74,12 @@ char * hb_f1d() {
 	do {
 	hb_vmPushInteger( 5 );
 	if( hb_xvmMultByInt( 2L ) ) break;
+	if( hb_xvmMultByInt( 3L ) ) break;
+	if( hb_xvmDivideByInt( 5L ) ) break;
+	
     hb_xvmRetValue();
 	} while(0);
 
-	printf("hb_f1d /2 in c_lib.c\n");
+	//printf("hb_f1d /2 in c_lib.c\n");
     return "==============================f1d=================";
 }

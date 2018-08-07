@@ -39,7 +39,7 @@ pub extern fn fibonacci(n: i32) -> i32 {
 }
 
 #[no_mangle]
-pub extern fn f1d_rust() {
+pub extern fn HB_FUN_F1D_RUST() {
     unsafe {
       hb_f1d();
     }
