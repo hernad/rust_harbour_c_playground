@@ -1,6 +1,7 @@
 #include <stdio.h>
+#include "fibonacci.h"
 
-int fibonacci(int);
+//  gcc -L . -l fibonacci -o fibo_c.exe cli_fib_c.c
 
 int main() {
    printf("fibo3=%d\n", fibonacci(3));

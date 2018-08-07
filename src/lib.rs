@@ -1,3 +1,5 @@
+//extern crate libc;
+
 #[test]
 fn it_works() {}
 
@@ -36,7 +38,15 @@ pub extern fn fibonacci(n: i32) -> i32 {
     }
 }
 
+#[no_mangle]
+pub extern fn f1d_rust() {
+    unsafe {
+      hb_f1d();
+    }
+}
+
 extern {
+    fn hb_f1d();
     fn hello_harbour();
 }
 
