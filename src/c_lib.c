@@ -25,13 +25,19 @@ void hello_harbour()
 }
 
 
+void hb_init_c( void ) {
+	printf("hb_vmInit, default GT WIN\n");
+	hb_vmInit( HB_FALSE);
+    hb_vmSetDefaultGT("WIN");
+}
+
+
 void HB_FUN_F1B ( void );
 
 extern void HB_FUN_SCROLL ( void );
 extern void HB_FUN_SETPOS ( void );
 extern void HB_FUN_INKEY ( void );
 extern void HB_FUN_QOUT ( void );
-
 
 
 

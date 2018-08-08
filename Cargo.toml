@@ -8,6 +8,11 @@ build = "build.rs"
 name = "fibonacci"
 crate-type = ["dylib"]
 
+[[bin]]
+name = "fibonacci-bin"
+path = "bin/main.rs"
+
+
 [dependencies]
 
 

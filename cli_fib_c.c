@@ -5,7 +5,8 @@
 
 int main() {
    printf("fibo3=%d\n", fibonacci(3));
+   
+   hb_run_main_from_rust();
    return 0;
 
 }
-

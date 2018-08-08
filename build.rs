@@ -17,6 +17,8 @@ if cfg!(feature = "bar") {
 
 cc.file("src/c_lib.c");
 cc.file("src/f.c");
+cc.file("src/cli_fib_prg.c");
+
 //cc.define("CFLAGS", Some("-m32 -Wl,--no-demangle -Wl,--nxcompat -Wl,--dynamicbase -Wl,--pic-executable,-e,_mainCRTStartup -mconsole"));
 //cc.define("CFLAGS", Some("-m32"));
 //cc.shared_flag(true);
@@ -49,9 +51,12 @@ cc.compile("libchello.a");
 
 // DLL  -lhbmainstd -lhbcplr -lhbdebug 
 
-println!("cargo:rustc-link-lib=dylib=harbour_dll");
+
 println!("cargo:rustc-link-lib=dylib=hbcplr");
-println!("cargo:rustc-link-lib=dylib=hbmainstd");
+
+// d:/devel/harbour/lib/win/mingw/libhbmainstd.a(mainstd.o):mainstd.c:(.text.startup+0x0): multiple definition of `main'
+//println!("cargo:rustc-link-lib=dylib=hbmainstd");
+
 println!("cargo:rustc-link-lib=dylib=hbdebug");
 
 //println!("cargo:rustc-link-lib=dylib=hbcommon");
@@ -105,6 +110,7 @@ println!("cargo:rustc-link-lib=dylib=winmm");
 //println!("cargo:rustc-link-lib=dylib=wininet");
 
 
+
 /*
          
  //ole32 oleaut32   mapi32 imm32 msimg32 
@@ -126,6 +132,8 @@ println!("cargo:rustc-link-lib=static=winmm");
 
 */
 
+// harbour_dll MORA BITI NA KRAJU!
+println!("cargo:rustc-link-lib=dylib=harbour_dll");
 println!("cargo:rustc-link-search=native=d:/devel/harbour/lib/win/mingw");
 //println!("cargo:rustc-link-search=dylib=d:/devel/harbour/bin");
 }

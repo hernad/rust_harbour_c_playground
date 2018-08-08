@@ -20,6 +20,14 @@ PROCEDURE dbf_test()
       { "MEMO2",     "M", 10, 0 } }
 
    REQUEST DBFCDX
+   REQUEST DBFFPT
+
+   REQUEST HB_CODEPAGE_UTF8
+   REQUEST HB_CODEPAGE_SL852
+   REQUEST HB_CODEPAGE_SLISO
+   REQUEST HB_CODEPAGE_SLWIN
+
+   rddSetDefault( "DBFCDX" )
 
    dbCreate( "testdbf.dbf", aStruct, "DBFCDX", .T., "MYALIAS" )
 
@@ -42,7 +50,8 @@ PROCEDURE dbf_test()
    ? "[" + Str( MYALIAS->NUMERIC ) + "]"
 
    ?
-   WAIT
+   //WAIT
+   //altd()
 
    ?
    ? "Append 50 records with memos..."
@@ -78,15 +87,17 @@ PROCEDURE dbf_test()
    ? "[" + MYALIAS->MEMO2 + "]"
    ? "[" + Str( MYALIAS->DOUBLE ) + "]"
    ? "[" + Str( MYALIAS->NUMERIC ) + "]"
-   WAIT
+   //WAIT
    dbCloseAll()
    hb_dbDrop( "testdbf.dbf",, "DBFCDX" )
 
-   dbCreate( "testdbf.dbf", aStruct, , .T., "MYALIAS" )
+   //FERASE( "testdbf.fpt")
 
+   dbCreate( "testdbf.dbf", aStruct, "DBFCDX", .T., "MYALIAS" )
+   //RETURN 
    FOR nI := 1 TO 10
       MYALIAS->( dbAppend() )
-      MYALIAS->NUMERIC := nI
+      replace MYALIAS->NUMERIC with nI, MYALIAS->memo1 with  "memo " + alltrim( STR( nI) )
       ? "Adding a record", nI
       IF nI == 3 .OR. nI == 7
          MYALIAS->( dbDelete() )
@@ -97,29 +108,29 @@ PROCEDURE dbf_test()
 
    ?
    ? "With SET DELETED OFF"
-   WAIT
+   //WAIT
 
    MYALIAS->( dbGoTop() )
    DO WHILE ! MYALIAS->( Eof() )
-      ? MYALIAS->NUMERIC
+      ? recno(), "numeric=", MYALIAS->NUMERIC
       MYALIAS->( dbSkip() )
    ENDDO
 
    Set( _SET_DELETED, .T. )
    ?
    ? "With SET DELETED ON"
-   WAIT
+   //WAIT
 
    MYALIAS->( dbGoTop() )
    DO WHILE ! MYALIAS->( Eof() )
-      ? MYALIAS->NUMERIC
+      ? recno(), "numeric/2=", MYALIAS->NUMERIC
       MYALIAS->( dbSkip() )
    ENDDO
 
    ?
    ? "With SET DELETED ON"
    ? "and  SET FILTER TO MYALIAS->NUMERIC > 2 .AND. MYALIAS->NUMERIC < 8"
-   WAIT
+   //WAIT
 
    MYALIAS->( dbSetFilter( {|| MYALIAS->NUMERIC > 2 .AND. MYALIAS->NUMERIC < 8 }, ;
       "MYALIAS->NUMERIC > 2 .AND. MYALIAS->NUMERIC < 8" ) )
@@ -133,13 +144,13 @@ PROCEDURE dbf_test()
    ?
    ? "With SET DELETED OFF"
    ? "and  SET FILTER TO MYALIAS->NUMERIC > 2 .AND. MYALIAS->NUMERIC < 8"
-   WAIT
+   //WAIT
 
    MYALIAS->( dbSetFilter( {|| MYALIAS->NUMERIC > 2 .AND. MYALIAS->NUMERIC < 8 }, ;
       "MYALIAS->NUMERIC > 2 .AND. MYALIAS->NUMERIC < 8" ) )
    MYALIAS->( dbGoTop() )
    DO WHILE ! MYALIAS->( Eof() )
-      ? MYALIAS->NUMERIC
+      ? recno(), "numeric/3", MYALIAS->NUMERIC
       MYALIAS->( dbSkip() )
    ENDDO
 
@@ -148,44 +159,51 @@ PROCEDURE dbf_test()
 
    ? "Testing __dbPack()"
    ? "Records before PACK:", MYALIAS->( LastRec() )
-   ? "Size of files (data and memo):", ;
-      hb_vfDirectory( "testdbf.dbf" )[ 1 ][ F_SIZE ], ;
-      hb_vfDirectory( "testdbf.dbt" )[ 1 ][ F_SIZE ]
+   //? "Size of files (data and memo):", ;
+   //   hb_vfDirectory( "testdbf.dbf" )[ 1 ][ F_SIZE ], ;
+   //   hb_vfDirectory( "testdbf.fpt" )[ 1 ][ F_SIZE ]
    SET FILTER TO
    MYALIAS->( __dbPack() )
    MYALIAS->( dbCommit() )
    ? "Records after PACK:", MYALIAS->( LastRec() )
-   ? "Size of files (data and memo):", ;
-      hb_vfDirectory( "testdbf.dbf" )[ 1 ][ F_SIZE ], ;
-      hb_vfDirectory( "testdbf.dbt" )[ 1 ][ F_SIZE ]
-   WAIT
+   //? "Size of files (data and memo):", ;
+   //   hb_vfDirectory( "testdbf.dbf" )[ 1 ][ F_SIZE ], ;
+   //   hb_vfDirectory( "testdbf.fpt" )[ 1 ][ F_SIZE ]
+   //WAIT
    ? "Value of fields:"
    MYALIAS->( dbGoTop() )
    DO WHILE ! MYALIAS->( Eof() )
-      ? MYALIAS->NUMERIC
+      ? recno(), "numeric/4", MYALIAS->NUMERIC, myalias->memo1
       MYALIAS->( dbSkip() )
    ENDDO
    ?
 
+
+   /*
    ? "Open test.dbf and LOCATE FOR TESTDBF->SALARY > 145000"
-   WAIT
-   dbUseArea( , , "test.dbf", "TESTDBF" )
+   //WAIT
+   dbCloseAll()
+   ? "used before", used()
+   dbUseArea( , "DBFCDX", "testdbf.dbf", "TESTDBF" )
+   
+   ? "used after=", used()
    LOCATE for TESTDBF->SALARY > 145000
    DO WHILE TESTDBF->( Found() )
       ? TESTDBF->FIRST, TESTDBF->LAST, TESTDBF->SALARY
       CONTINUE
    ENDDO
-   ?
+   ?F
    ? "LOCATE FOR TESTDBF->MARRIED .AND. TESTDBF->FIRST > 'S'"
-   WAIT
-   dbUseArea( , , "test.dbf", "TESTDBF" )
+   //WAIT
+   dbCloseAll()
+   dbUseArea( , "DBFCDX", "testdbf.dbf", "TESTDBF" )
    LOCATE for TESTDBF->MARRIED .AND. TESTDBF->FIRST > 'S'
    DO WHILE TESTDBF->( Found() )
       ? TESTDBF->FIRST, TESTDBF->LAST, TESTDBF->MARRIED
       CONTINUE
    ENDDO
-
+   */
    dbCloseAll()
-   hb_dbDrop( "testdbf.dbf" )
+   hb_dbDrop( "testdbf.dbf",, "DBFCDX" )
 
    RETURN
