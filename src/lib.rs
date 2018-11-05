@@ -81,7 +81,7 @@ pub extern fn hb_init() {
 
 extern {
     fn hb_f1d();
-    fn hello_harbour();
+    //fn hello_harbour();
     fn HB_FUN_MAIN();
     fn hb_init_c();
 }

@@ -1,12 +1,17 @@
 [package]
 name = "fibonacci"
-version = "0.2.0"
-authors = ["hernad"]
+version = "0.3.0"
+authors = ["hernad@bring.out.ba"]
 build = "build.rs"
 
 [lib]
 name = "fibonacci"
-crate-type = ["dylib"]
+crate-type = ["rlib"]
+
+#[target.'cfg(target_os = "windows")'.lib]
+#name = "fibonacci"
+#crate-type = ["dylib"]
+
 
 [[bin]]
 name = "fibonacci-bin"
