@@ -9,63 +9,82 @@
 #include "hbinit.h"
 #include "hbxvm.h"
 
+/*
+HB_FUNC(RUST1);
+HB_FUNC_EXTERN(QOUT);
+HB_FUNC_EXTERN(F1);
+HB_FUNC_EXTERN(F1B);
+HB_FUNC_EXTERN(F1D_RUST);
+HB_FUNC_EXTERN(DBF_TEST);
+*/
 
-HB_FUNC( MAIN );
-HB_FUNC_EXTERN( QOUT );
-HB_FUNC_EXTERN( F1 );
-HB_FUNC_EXTERN( F1B );
-HB_FUNC_EXTERN( F1D_RUST );
-HB_FUNC_EXTERN( DBF_TEST );
 
 
-HB_INIT_SYMBOLS_BEGIN( hb_vm_SymbolInit_CLI_FIB_PRG )
-{ "MAIN", {HB_FS_PUBLIC | HB_FS_FIRST | HB_FS_LOCAL}, {HB_FUNCNAME( MAIN )}, NULL },
-{ "QOUT", {HB_FS_PUBLIC}, {HB_FUNCNAME( QOUT )}, NULL },
-{ "F1", {HB_FS_PUBLIC}, {HB_FUNCNAME( F1 )}, NULL },
-{ "F1B", {HB_FS_PUBLIC}, {HB_FUNCNAME( F1B )}, NULL },
-{ "F1D_RUST", {HB_FS_PUBLIC}, {HB_FUNCNAME( F1D_RUST )}, NULL },
-{ "DBF_TEST", {HB_FS_PUBLIC}, {HB_FUNCNAME( DBF_TEST )}, NULL }
-HB_INIT_SYMBOLS_EX_END( hb_vm_SymbolInit_CLI_FIB_PRG, "", 0x0, 0x0003 )
+/*
+HB_INIT_SYMBOLS_BEGIN(hb_vm_SymbolInit_CLI_FIB_PRG){"MAIN", {HB_FS_PUBLIC | HB_FS_FIRST | HB_FS_LOCAL}, {HB_FUNCNAME(MAIN)}, NULL},
+	{"QOUT", {HB_FS_PUBLIC}, {HB_FUNCNAME(QOUT)}, NULL},
+	{"F1", {HB_FS_PUBLIC}, {HB_FUNCNAME(F1)}, NULL},
+	{"F1B", {HB_FS_PUBLIC}, {HB_FUNCNAME(F1B)}, NULL},
+	{"F1D_RUST", {HB_FS_PUBLIC}, {HB_FUNCNAME(F1D_RUST)}, NULL},
+	{"DBF_TEST", {HB_FS_PUBLIC}, {HB_FUNCNAME(DBF_TEST)}, NULL} 
+HB_INIT_SYMBOLS_EX_END(hb_vm_SymbolInit_CLI_FIB_PRG, "", 0x0, 0x0003)
 
-#if defined( HB_PRAGMA_STARTUP )
-   #pragma startup hb_vm_SymbolInit_CLI_FIB_PRG
-#elif defined( HB_DATASEG_STARTUP )
-   #define HB_DATASEG_BODY    HB_DATASEG_FUNC( hb_vm_SymbolInit_CLI_FIB_PRG )
-   #include "hbiniseg.h"
+#if defined(HB_PRAGMA_STARTUP)
+#pragma startup hb_vm_SymbolInit_CLI_FIB_PRG
+#elif defined(HB_DATASEG_STARTUP)
+#define HB_DATASEG_BODY HB_DATASEG_FUNC(hb_vm_SymbolInit_CLI_FIB_PRG)
+#include "hbiniseg.h"
 #endif
 
-HB_FUNC( MAIN )
+*/
+
+/*
+static HB_SYMB symbols_table[] = 
 {
-   do {
-	hb_xvmSetLine( 9 );
-	hb_xvmPushFuncSymbol( symbols + 1 );
-	hb_xvmPushStringConst( "poziv F1=", 9 );
-	hb_xvmPushFuncSymbol( symbols + 2 );
-	hb_xvmPushInteger( 2 );
-	if( hb_xvmFunction( 1 ) ) break;
-	if( hb_xvmDo( 2 ) ) break;
-	hb_xvmSetLine( 10 );
-	hb_xvmPushFuncSymbol( symbols + 1 );
-	hb_xvmPushStringConst( "poziv F1B=", 10 );
-	hb_xvmPushFuncSymbol( symbols + 3 );
-	hb_xvmPushInteger( 2 );
-	if( hb_xvmFunction( 1 ) ) break;
-	if( hb_xvmDo( 2 ) ) break;
-	hb_xvmSetLine( 11 );
-	hb_xvmPushFuncSymbol( symbols + 1 );
-	hb_xvmPushStringConst( "poziv f1d_rust", 14 );
-	hb_xvmPushFuncSymbol( symbols + 4 );
-	if( hb_xvmFunction( 0 ) ) break;
-	if( hb_xvmDo( 2 ) ) break;
-	hb_xvmSetLine( 12 );
-	hb_xvmPushFuncSymbol( symbols + 1 );
-	hb_xvmPushStringConst( "dbf test", 8 );
-	if( hb_xvmDo( 1 ) ) break;
-	hb_xvmSetLine( 13 );
-	hb_xvmPushFuncSymbol( symbols + 5 );
-	if( hb_xvmDo( 0 ) ) break;
-	hb_xvmSetLine( 17 );
-	/* *** END PROC *** */
-   } while( 0 );
+ {"MAIN", {0x0001 | 0x0004 | 0x0200}, {HB_FUN_MAIN}, ((void *)0) },                                                                                     },
+ {"QOUT", {0x0001}, {HB_FUN_QOUT},  ((void *) 0) },
+ {"F1", {0x0001}, {HB_FUN_F1},  ((void *) 0) },
+ {"F1B", {0x0001}, {HB_FUN_F1B}, ((void *) 0) },
+ {"F1D_RUST", {0x0001}, {HB_FUN_F1D_RUST}, ((void *)0) },
+ {"DBF_TEST", {0x0001}, {HB_FUN_DBF_TEST}, ((void *)0) }
+}; 
+*/
+
+void HB_FUN_RUST1 ( void );
+extern void HB_FUN_QOUT ( void );
+extern void HB_FUN_F1 ( void );
+extern void HB_FUN_F1B ( void );
+extern void HB_FUN_F1D_RUST ( void );
+extern void HB_FUN_DBF_TEST ( void );
+
+
+static HB_SYMB symbols_table[] = {
+ {"RUST1", {0x0001 | 0x0004 | 0x0200}, {HB_FUN_RUST1}, ((void *)0) },
+ {"QOUT", {0x0001}, {HB_FUN_QOUT}, ((void *)0) },
+ {"F1", {0x0001}, {HB_FUN_F1}, ((void *)0) },
+ {"F1B", {0x0001}, {HB_FUN_F1B}, ((void *)0) },
+ {"F1D_RUST", {0x0001}, {HB_FUN_F1D_RUST}, ((void *)0) },
+ {"DBF_TEST", {0x0001}, {HB_FUN_DBF_TEST}, ((void *)0) }
+};
+
+static PHB_SYMB symbols = symbols_table; 
+
+static void __attribute__ ((constructor)) hb_vm_SymbolInit_RUST1_PRG( void ) { 
+	symbols = hb_vmProcessSymbols( symbols_table, ( HB_USHORT ) ( sizeof( symbols_table ) / sizeof( HB_SYMB ) ), (""), (0x0), (0x0003) ); 
 }
+
+
+void HB_FUN_RUST1 ( void )
+{
+ do
+ {
+  hb_xvmPushFuncSymbol(symbols + 5); // DBF_TEST
+  hb_xvmPushStringConst( "12345", 5 ); // param 1 funkcije DBF_TEST
+  if (hb_xvmDo(1))
+   break;
+ } while (0);
+}
+
+
+
 

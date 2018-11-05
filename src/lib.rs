@@ -59,7 +59,7 @@ pub extern fn fibonacci(n: i32) -> i32 {
 pub extern fn hb_run_main_from_rust() {
    unsafe {
        hb_init();
-       HB_FUN_MAIN();
+       HB_FUN_RUST1();
    }
 
 }
@@ -82,6 +82,6 @@ pub extern fn hb_init() {
 extern {
     fn hb_f1d();
     //fn hello_harbour();
-    fn HB_FUN_MAIN();
+    fn HB_FUN_RUST1();
     fn hb_init_c();
 }

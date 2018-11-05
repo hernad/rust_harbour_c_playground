@@ -8,7 +8,7 @@ function f1( nA )
 
 
 
-PROCEDURE dbf_test()
+PROCEDURE dbf_test( cParam1 )
 
    LOCAL nI, aStruct := { ;
       { "CHARACTER", "C", 25, 0 }, ;
@@ -28,7 +28,7 @@ PROCEDURE dbf_test()
    REQUEST HB_CODEPAGE_SLWIN
 
 
-   ? "========================= 0) START  =============================================== "
+   ? "========================= 0) START  param 1:", cParam1,  "=============================================== "
    inkey(10)
 
    rddSetDefault( "DBFCDX" )
