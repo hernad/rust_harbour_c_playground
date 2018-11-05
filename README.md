@@ -236,3 +236,9 @@ pacman --noconfirm -S --needed mingw-w64-$MSYS2_ARCH-postgresql mingw-w64-$MSYS2
 pacman --noconfirm -S mingw-w64-$MSYS2_ARCH-postgresql
 </pre>
 
+
+## Linux
+
+
+     LD_LIBRARY_PATH=/home/hernad/harbour/lib  && cargo test
+
