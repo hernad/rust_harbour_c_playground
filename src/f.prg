@@ -27,6 +27,10 @@ PROCEDURE dbf_test()
    REQUEST HB_CODEPAGE_SLISO
    REQUEST HB_CODEPAGE_SLWIN
 
+
+   ? "========================= 0) START  =============================================== "
+   inkey(10)
+
    rddSetDefault( "DBFCDX" )
 
    dbCreate( "testdbf.dbf", aStruct, "DBFCDX", .T., "MYALIAS" )
@@ -107,7 +111,7 @@ PROCEDURE dbf_test()
    MYALIAS->( dbCommit() )
 
    ?
-   ? "With SET DELETED OFF"
+   ? "1) With SET DELETED OFF"
    //WAIT
 
    MYALIAS->( dbGoTop() )
@@ -118,7 +122,7 @@ PROCEDURE dbf_test()
 
    Set( _SET_DELETED, .T. )
    ?
-   ? "With SET DELETED ON"
+   ? "2) With SET DELETED ON"
    //WAIT
 
    MYALIAS->( dbGoTop() )
@@ -206,4 +210,6 @@ PROCEDURE dbf_test()
    dbCloseAll()
    hb_dbDrop( "testdbf.dbf",, "DBFCDX" )
 
+   ? ">>>>>>>>>>>>>>>>>>>>> pritisni nesto za kraj <<<<<<<<<<<<<<<<<<<<<"
+   inkey(60)
    RETURN

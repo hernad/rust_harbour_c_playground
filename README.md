@@ -240,5 +240,12 @@ pacman --noconfirm -S mingw-w64-$MSYS2_ARCH-postgresql
 ## Linux
 
 
-     LD_LIBRARY_PATH=/home/hernad/harbour/lib  && cargo test
+harbour compile:
+
+     harbour -I/home/hernad/harbour/include -gc3 src/f.prg && mv f.c src/
+
+
+run test:
+
+     LD_LIBRARY_PATH=/home/hernad/harbour/lib  && cargo test && reset
 
